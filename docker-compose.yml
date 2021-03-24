@@ -1,0 +1,19 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:latest
+        container_name: mysql
+        restart: always
+        environment:
+          - MYSQL_ROOT_PASSWORD=123456
+        ports:
+          - "3306:3306"
+        volumes:
+          - ${WEBPATH}/mysql/data:/var/lib/mysql
+          - ./mysql/conf.d:/etc/mysql/conf.d
+    redis:
+        image: redis:5.0-alpine
+        container_name: redis
+        restart: always
+        ports:
+          - "6379:6379"
