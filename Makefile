@@ -87,7 +87,7 @@ docker-rm: docker-stop
 
 .PHONY: docker-rmi
 docker-rmi: docker-stop docker-rm
-	docker rmi test/ccb-ebs:0.1
+	docker rmi test/ccb-ebs:v0.1
 
 .PHONY: docker-ps
 docker-ps:
