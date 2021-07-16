@@ -45,3 +45,56 @@ rmc:
 logs:
 	@docker-compose logs -f
 
+export MVNW_VERBOSE=true
+export MVNW_REPOURL=https://maven.aliyun.com/repository/public
+
+ebs_id = $(shell docker ps -a |grep ccb-ebs:0.1 | awk '{print $$1}')
+
+.PHONY: up
+up: docker-rmi build docker-build docker-run docker-ps
+
+.PHONY: id
+id:
+	echo $(ebs_id)
+
+.PHONY: build
+build:
+	./mvnw clean package -Dmaven.test.skip=true
+
+.PHONY: docker-build
+docker-build:
+	docker build -t test/ccb-ebs:0.1 .
+
+.PHONY: docker-run
+docker-run:
+	docker run -p 8080:80 -itd --name ccb-ebs test/ccb-ebs:0.1
+
+.PHONY: docker-stop
+docker-stop:
+	docker stop $(ebs_id)
+
+.PHONY: docker-start
+docker-start:
+	docker start $(ebs_id)
+
+.PHONY: docker-restart
+docker-restart:
+	docker restart $(ebs_id)
+
+.PHONY: docker-rm
+docker-rm: docker-stop
+	docker rm ccb-ebs
+
+.PHONY: docker-rmi
+docker-rmi: docker-stop docker-rm
+	docker rmi test/ccb-ebs:0.1
+
+.PHONY: docker-ps
+docker-ps:
+	docker ps | grep ccb-ebs
+
+.PHONY: test
+test: build
+	cp  target/*.jar app.jar
+	java -jar app.jar
+
