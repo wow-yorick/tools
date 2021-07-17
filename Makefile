@@ -48,14 +48,14 @@ logs:
 export MVNW_VERBOSE=true
 export MVNW_REPOURL=https://maven.aliyun.com/repository/public
 
-ebs_id = $(shell docker ps -a |grep ccb-ebs:0.1 | awk '{print $$1}')
+ID = $(shell docker ps -a |grep ccb-ebs:0.1 | awk '{print $$1}')
 
 .PHONY: up
 up: docker-rmi build docker-build docker-run docker-ps
 
 .PHONY: id
 id:
-	echo $(ebs_id)
+	echo $(ID)
 
 .PHONY: build
 build:
