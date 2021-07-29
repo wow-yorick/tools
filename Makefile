@@ -98,3 +98,18 @@ test: build
 	cp  target/*.jar app.jar
 	java -jar app.jar
 
+.PHONY: refresh
+refresh:
+	@echo "刷新 articles"
+	cd ~/workspace/articles
+	git add .
+	git commit -a -m 'feat: 日记'
+	git pull
+	git push
+	@echo "刷新 we-media"
+	cd ~/workspace/wowyorick-we-media
+	git add .
+	git commit -a -m 'feat: media'
+	git pull
+	git push
+	@echo "finish"
