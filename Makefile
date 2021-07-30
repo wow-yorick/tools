@@ -98,18 +98,19 @@ test: build
 	cp  target/*.jar app.jar
 	java -jar app.jar
 
-.PHONY: refresh
-refresh:
-	@echo "刷新 articles"
-	cd ~/workspace/articles
-	git add .
-	git commit -a -m 'feat: 日记'
-	git pull
-	git push
+.PHONY: media
+media:
 	@echo "刷新 we-media"
-	cd ~/workspace/wowyorick-we-media
-	git add .
-	git commit -a -m 'feat: media'
-	git pull
-	git push
-	@echo "finish"
+	-cd ~/workspace/wowyorick-we-media && git add . && git commit -a -m 'feat: media' && git pull && git push
+	open /Applications/*Typora*
+
+.PHONY: logseq
+logseq:
+	@echo "刷新 articles"
+	-cd ~/workspace/articles && git status && git add . && git commit -a -m 'feat: 日记' && git pull && git push
+	open /Applications/*Logseq*
+
+.PHONY: emacs
+emacs:
+	-cd ~/.emacs.d && git pull && git fetch update_stream && git merge update_stream/master && git push
+	
