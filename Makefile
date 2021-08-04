@@ -133,14 +133,14 @@ emacs:
 .PHONY: sync-media
 sync-media:
 	@echo $(GREEN)"begin sync we-media"$(BLOCKEND)
-	-cd ~/workspace/wowyorick-we-media && git add . && git commit -a -m 'feat: media' && git pull && git push
+	-cd ~/workspace/wowyorick-we-media && git add . && (git commit -a -m 'feat: media') ; git pull ; git push
 	@echo $(GREEN)"finish sync we-media"$(BLOCKEND)
 	@echo ""
 
 .PHONY: sync-articles
 sync-articles:
 	@echo $(GREEN)"begin sync articles"$(BLOCKEND)
-	-cd ~/workspace/articles && git status && git add . && git commit -a -m 'feat: 日记' && git pull && git push
+	-cd ~/workspace/articles &&  git status && (git add . && git commit -a -m 'feat: 日记') ; git pull && git push
 	@echo $(GREEN)"finish sync articles"$(BLOCKEND)
 	@echo ""
 
