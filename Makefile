@@ -140,9 +140,7 @@ sync-media:
 .PHONY: sync-articles
 sync-articles:
 	@echo $(GREEN)"begin sync articles"$(BLOCKEND)
-	-cd ~/workspace/articles &&  git status 
-	- git add . && git commit -a -m 'feat: 日记'
-	- git pull && git push
+	-cd ~/workspace/articles && (git add . && git commit -a -m 'feat: 日记');git pull && git push
 	@echo $(GREEN)"finish sync articles"$(BLOCKEND)
 	@echo ""
 
