@@ -1,6 +1,11 @@
 package cmd
 
 import (
+	"errors"
+	"os"
+	"text/template"
+	"time"
+
 	"github.com/urfave/cli/v2"
 )
 
@@ -9,8 +14,8 @@ type TemplateCmd *cli.Command
 var mdArticleTemplate = `
 ---
 title: "{{.Title}}"
-date: 2017-08-30T15:43:48+08:00
-lastmod: 2017-08-30T15:43:48+08:00
+date: {{.CurrentTime}}
+lastmod: {{.CurrentTime}}
 draft: false
 tags: ["go-lib"]
 categories: ["go"]
@@ -29,6 +34,11 @@ contentCopyright: '<a href="https://github.com/wow-yorick/articles" rel="noopene
 
 `
 
+type TemplateData struct {
+	Title       string
+	CurrentTime string
+}
+
 func NewTemplateCmd() TemplateCmd {
 	return &cli.Command{
 		Name:    "template",
@@ -43,7 +53,29 @@ func NewTemplateCmd() TemplateCmd {
 			},
 		},
 		Action: func(ctx *cli.Context) error {
-			println(ctx.String("title"))
+			d := &TemplateData{
+				Title:       ctx.String("title"),
+				CurrentTime: time.Now().Format(time.RFC3339),
+			}
+			fileName := "./data/" + d.Title + ".md"
+			// 文件存在不在处理
+			_, err := os.Stat(fileName)
+			if err == nil {
+				return errors.New("File does exist.")
+			}
+
+			// 创建文件
+			f, err := os.Create(fileName)
+			if err != nil {
+				return err
+			}
+			t, err := template.New(d.Title).Parse(mdArticleTemplate)
+			if err != nil {
+				return err
+			}
+			if err = t.Execute(f, d); err != nil {
+				return err
+			}
 			return nil
 		},
 	}

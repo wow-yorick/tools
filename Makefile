@@ -159,3 +159,7 @@ publish:
 	@echo $(GREEN)"finish publish"$(BLOCKEND)
 	@echo ""
 
+.PHONY: art-create
+art-create:
+	@echo $(GREEN)"创建->"$(title)".md 文章模板"$(BLOCKEND)
+	- ./app tp -title=${title}
