@@ -147,3 +147,15 @@ sync-articles:
 .PHONY: sync-all
 sync-all: sync-media sync-articles emacs
 
+.PHONY: publish
+publish:
+	@echo $(GREEN)"start publish"$(BLOCKEND)
+	cd ~/workspace/wow-yorick.github.io && git pull
+	cd ~/workspace/blog/ && hugo
+	rm -fr ~/workspace/wow-yorick.github.io/*
+	cp -r ~/workspace/blog/public/. ~/workspace/wow-yorick.github.io
+	echo "www.5zyx.com" > ~/workspace/wow-yorick.github.io/CNAME
+	cd ~/workspace/wow-yorick.github.io && git add . && git commit -a -m 'publish blog' && git push
+	@echo $(GREEN)"finish publish"$(BLOCKEND)
+	@echo ""
+

@@ -1,0 +1,15 @@
+bin/
+storage/
+local/
+.cache/
+.idea/
+.DS_Store/
+*.test
+\#*\#
+.vscode
+table-comment.txt
+.env
+app
+cover.out
+cover.html
+cover_total.out
