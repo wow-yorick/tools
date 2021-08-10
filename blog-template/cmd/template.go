@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"io/fs"
 	"os"
 	"text/template"
 	"time"
@@ -59,9 +60,12 @@ func NewTemplateCmd() TemplateCmd {
 			}
 			fileName := "./data/" + d.Title + ".md"
 			// 文件存在不在处理
-			_, err := os.Stat(fileName)
-			if err == nil {
+			if Exists(fileName) {
 				return errors.New("File does exist.")
+			}
+			// 目录不存在创建
+			if !Exists("./data") {
+				_ = os.Mkdir("./data", fs.ModePerm)
 			}
 
 			// 创建文件
@@ -69,6 +73,7 @@ func NewTemplateCmd() TemplateCmd {
 			if err != nil {
 				return err
 			}
+			_ = f.Chmod(fs.ModePerm)
 			t, err := template.New(d.Title).Parse(mdArticleTemplate)
 			if err != nil {
 				return err
@@ -79,4 +84,16 @@ func NewTemplateCmd() TemplateCmd {
 			return nil
 		},
 	}
+}
+
+// 判断所给路径文件/文件夹是否存在
+func Exists(path string) bool {
+	_, err := os.Stat(path) // os.Stat获取文件信息
+	if err != nil {
+		if os.IsExist(err) {
+			return true
+		}
+		return false
+	}
+	return true
 }
