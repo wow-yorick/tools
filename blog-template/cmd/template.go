@@ -31,6 +31,7 @@ autoCollapseToc: true
 contentCopyright: '<a href="https://github.com/wow-yorick/articles" rel="noopener" target="_blank">查看源</a>'
 # reward: false
 # mathjax: false
+
 ---
 
 `
@@ -57,6 +58,9 @@ func NewTemplateCmd() TemplateCmd {
 			d := &TemplateData{
 				Title:       ctx.String("title"),
 				CurrentTime: time.Now().Format(time.RFC3339),
+			}
+			if d.Title == "" {
+				return errors.New("文章标题不能为空")
 			}
 			fileName := "./data/" + d.Title + ".md"
 			// 文件存在不在处理

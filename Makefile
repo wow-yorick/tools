@@ -1,4 +1,7 @@
 EXTIEDDOCKER := $(shell docker ps -qf status=exited)
+
+APP := $(shell command -v ~/workspace/wowyorick-tools/app 2> /dev/null)
+
 BLACK = "\033[30;1m"
 
 RED  =  "\033[41;36m"
@@ -150,6 +153,7 @@ sync-all: sync-media sync-articles emacs
 .PHONY: publish
 publish:
 	@echo $(GREEN)"start publish"$(BLOCKEND)
+	cp $(shell find ~/workspace/articles/pages -name "*.md") ~/workspace/blog/content/post
 	cd ~/workspace/wow-yorick.github.io && git pull
 	cd ~/workspace/blog/ && hugo
 	rm -fr ~/workspace/wow-yorick.github.io/*
@@ -161,5 +165,12 @@ publish:
 
 .PHONY: art-create
 art-create:
+	@echo ${APP}
+ifndef APP
+	cd ~/workspace/wowyorick-tools/blog-template;make;cd ~/workspace/wowyorick-tools
+endif
 	@echo $(GREEN)"创建->"$(title)".md 文章模板"$(BLOCKEND)
-	- ./app tp -title=${title}
+	 ~/workspace/wowyorick-tools/app tp -title=${title}
+	@cp ~/workspace/wowyorick-tools/data/${title}.md ~/workspace/articles/pages
+	open ~/workspace/articles/pages/${title}.md -a /Applications/*Typora*  
+
