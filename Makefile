@@ -171,6 +171,6 @@ ifndef APP
 endif
 	@echo $(GREEN)"创建->"$(title)".md 文章模板"$(BLOCKEND)
 	 ~/workspace/wowyorick-tools/app tp -title=${title}
-	@cp ~/workspace/wowyorick-tools/data/${title}.md ~/workspace/articles/pages
+	@mv ~/workspace/wowyorick-tools/data/${title}.md ~/workspace/articles/pages
 	open ~/workspace/articles/pages/${title}.md -a /Applications/*Typora*  
 
