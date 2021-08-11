@@ -12,8 +12,7 @@ import (
 
 type TemplateCmd *cli.Command
 
-var mdArticleTemplate = `
----
+var mdArticleTemplate = `---
 title: "{{.Title}}"
 date: {{.CurrentTime}}
 lastmod: {{.CurrentTime}}
