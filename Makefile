@@ -2,6 +2,8 @@ EXTIEDDOCKER := $(shell docker ps -qf status=exited)
 
 APP := $(shell command -v ~/workspace/wowyorick-tools/app 2> /dev/null)
 
+LIST := 1 1 1 1 2 3 4 5
+
 BLACK = "\033[30;1m"
 
 RED  =  "\033[41;36m"
@@ -174,3 +176,9 @@ endif
 	@mv ~/workspace/wowyorick-tools/data/${title}.md ~/workspace/articles/pages
 	open ~/workspace/articles/pages/${title}.md -a /Applications/*Typora*  
 
+testfor:
+	@for var in $(LIST); do \
+        echo $$var; \
+		curl http://localhost:8080/health; \
+		sleep $$var; \
+    done

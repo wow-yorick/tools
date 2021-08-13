@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io/fs"
 	"os"
+	"path/filepath"
 	"text/template"
 	"time"
 
@@ -61,14 +62,19 @@ func NewTemplateCmd() TemplateCmd {
 			if d.Title == "" {
 				return errors.New("文章标题不能为空")
 			}
-			fileName := "./data/" + d.Title + ".md"
+			ex, err := os.Executable()
+			if err != nil {
+				return err
+			}
+			exPath := filepath.Dir(ex)
+			fileName := exPath + "/data/" + d.Title + ".md"
 			// 文件存在不在处理
 			if Exists(fileName) {
 				return errors.New("File does exist.")
 			}
 			// 目录不存在创建
-			if !Exists("./data") {
-				_ = os.Mkdir("./data", fs.ModePerm)
+			if !Exists(exPath + "/data") {
+				_ = os.Mkdir(exPath +"/data", fs.ModePerm)
 			}
 
 			// 创建文件
