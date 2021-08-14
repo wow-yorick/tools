@@ -18,8 +18,8 @@ title: "{{.Title}}"
 date: {{.CurrentTime}}
 lastmod: {{.CurrentTime}}
 draft: false
-tags: ["go-lib"]
-categories: ["go"]
+tags: ["感悟"]
+categories: ["人生"]
 author: solid-10
 
 # You can also close(false) or open(true) something for this content.
