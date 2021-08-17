@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY --from=builder /src/bin /app
 
+ENV TZ=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 WORKDIR /app
 
 EXPOSE 8000
